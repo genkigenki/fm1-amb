@@ -926,7 +926,10 @@ static void tick(void)
  * then a figure-eight tank of two halves, each a modulated allpass, a delay, a damping lowpass, an
  * allpass and a delay, feeding the other half. Stereo out from seven taps a side. The paper's lengths
  * are for 29761 Hz; DS() scales them to 44.1 kHz. */
-#define DS(n) (((n) * 14818 + 5000) / 10000)          /* 44100 / 29761 */
+#ifndef AMB_PLATE_SCALE                              /* the plate's size, x10000: a smaller board passes a smaller one */
+#define AMB_PLATE_SCALE 14818                        /* 44100 / 29761 */
+#endif
+#define DS(n) (((n) * AMB_PLATE_SCALE + 5000) / 10000)
 #define PRE_N 1323                                   /* 30 ms */
 #define EXC DS(16)
 enum { L_PRE, L_IN1, L_IN2, L_IN3, L_IN4, L_APL, L_D1L, L_AP2L, L_D2L, L_APR, L_D1R, L_AP2R, L_D2R, L_N };
@@ -1028,7 +1031,9 @@ static void plate_init(void)
  * (the repeats fall in changing patterns, left and right), and now and then the second head slides to
  * another part of the loop, as a head moved by hand (the repeats bend a little in pitch on the way).
  * The Echoplex has a second tap, for the right. */
+#ifndef TAPE_N                                   /* a smaller board passes a shorter loop */
 #define TAPE_N 62000                             /* 5.6 s at 11.025 kHz */
+#endif
 #define TAPE_SR 11025.0f
 static int16_t tape[TAPE_N] EN_POOL;
 static int tape_w, tape_ph;
