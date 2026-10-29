@@ -4,3 +4,6 @@ __pycache__/
 *.o
 .serena/
 docs/superpowers/
+cardputer/.pio/
+cardputer/*-cardputer*.bin
+build/
